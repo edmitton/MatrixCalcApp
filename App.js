@@ -1,17 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View , Image} from 'react-native';
-import Matrix from './src/components/Homescreen';
+import { Container, Header, Content, Button} from 'native-base';
+import Matrix from './src/components/Matrix';
+import AppContainer from "./src/navigation/Navigator";
+import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator, createAppContainer} from 'react-navigation';
 
 export default class App extends React.Component {
   render(){
     return (
-      <View style={styles.container}>
-        <Image
-            source={require("./assets/images/Mathwall.jpg")}
-            style={{ width: 320, height: 256 }}
-            />
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <>
+      <AppContainer />
+        <View style={styles.container}>
+          <Image
+              source={require("./assets/images/Mathwall.jpg")}
+              style={{ width: 320, height: 256 }}
+              />
+          <Button light onPress={() => this.props.navigation.navigate('Matrix')}><Text> Light </Text></Button>
+          <Text>Hello world</Text>
+        </View>
+      </>
     );
   }
 }
