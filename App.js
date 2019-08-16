@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, View, Text, StyleSheet , Image} from 'react-native';
+import {View, Text, StyleSheet , Image, Button, TouchableOpacity} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import styled from 'styled-components';
+
 
 
 const styles = StyleSheet.create({
@@ -17,6 +19,34 @@ const styles = StyleSheet.create({
     fontSize: 30,
   }
 });
+
+//Home
+class HomeScreen extends React.Component{
+  render(){
+    return (
+      <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+        <Image
+            source={require("./assets/images/saruwakakun.png")}
+            style={{ width: 150, height: 150 }}
+            />
+        <Text style={styles.title}>Matrix Menu</Text>
+        <Button
+          title='Introduction'
+          color="#841584"
+          onPress={() => this.props.navigation.navigate('Introduction')}
+        />
+        <Button
+          title='Elementaly'
+          onPress={() => this.props.navigation.navigate('Elementaly')}
+        />
+        <Button
+          title='Inverse'
+          onPress={() => this.props.navigation.navigate('Inverse')}
+        />
+      </View>
+    );
+  }
+}
 
 //Inrroduction
 class Introduction extends React.Component{
@@ -39,14 +69,35 @@ class Introduction extends React.Component{
 class  Elementaly extends React.Component{
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-            source={require("./assets/images/ino.png")}
-            style={{ width: 320, height: 256 }}
-            />
+      <View style={{flex:1, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
+        <Button
+          title='3×3'
+          onPress={() => this.props.navigation.navigate('ThreeByThree')}
+        />
+        <Button
+          title='3×4'
+          onPress={() => this.props.navigation.navigate('ThreeByFour')}
+        />
+      </View>
+    );
+  }
+}
+
+class  ThreeByThree extends React.Component{
+  render() {
+    return (
+      <View style={{display: 'inline-block'}}>
         <Text>Open up App.js to start working on your app!</Text>
-        <Text>おけまる</Text>
-        <Text>おけまる２</Text>
+      </View>
+    );
+  }
+}
+
+class  ThreeByFour extends React.Component{
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
       </View>
     );
   }
@@ -67,34 +118,6 @@ class  Inverse extends React.Component{
   }
 }
 
-//Home
-class HomeScreen extends React.Component{
-  render(){
-    return (
-      <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-        <Image
-            source={require("./assets/images/saruwakakun.png")}
-            style={{ width: 150, height: 150 }}
-            />
-        <Text style={styles.title}>Matrix Menu</Text>
-        <Button
-          style={{fontSize: 30}}
-          title='Introduction'
-          onPress={() => this.props.navigation.navigate('Introduction')}
-        />
-        <Button
-          title='Elementaly'
-          onPress={() => this.props.navigation.navigate('Elementaly')}
-        />
-        <Button
-          title='Inverse'
-          onPress={() => this.props.navigation.navigate('Inverse')}
-        />
-      </View>
-    );
-  }
-}
-
 
 //RootStack
 const RootStack = createStackNavigator(
@@ -110,6 +133,12 @@ const RootStack = createStackNavigator(
     },
     Inverse: {
       screen: Inverse,
+    },
+    ThreeByThree: {
+      screen:  ThreeByThree,
+    },
+    ThreeByFour: {
+      screen:  ThreeByFour,
     }
   },
   {
