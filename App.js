@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet , Image, Button, TouchableOpacity} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import styled from 'styled-components';
-
+import Matrix from './src/components/Matrix';
 
 
 const styles = StyleSheet.create({
@@ -13,7 +12,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 36,
+    fontSize: 40,
+    marginTop: 16,
   },
   menu: {
     fontSize: 30,
@@ -24,25 +24,27 @@ const styles = StyleSheet.create({
 class HomeScreen extends React.Component{
   render(){
     return (
-      <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flex:1, alignItems: 'center', justifyContent: 'start'}}>
         <Image
             source={require("./assets/images/saruwakakun.png")}
-            style={{ width: 150, height: 150 }}
+            style={{ width: 150, height: 150, marginTop: 120}}
             />
         <Text style={styles.title}>Matrix Menu</Text>
-        <Button
-          title='Introduction'
-          color="#841584"
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Introduction')}
-        />
-        <Button
-          title='Elementaly'
+        >
+          <Text style={{fontSize: 32, color: "#607d8b", marginTop: 16}}> Introduction </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Elementaly')}
-        />
-        <Button
-          title='Inverse'
+        >
+          <Text style={{fontSize: 30, color: "#607d8b", marginTop: 16}}> Elementaly </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Inverse')}
-        />
+        >
+          <Text style={{fontSize: 30, color: "#607d8b", marginTop: 16}}> Inverse </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -57,9 +59,7 @@ class Introduction extends React.Component{
             source={require("./assets/images/Mathwall.jpg")}
             style={{ width: 320, height: 256 }}
             />
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>ぷーーーーーーんっ</Text>
-        <Text>ふぇぇぇぇぇぇぇい</Text>
+        <Text style={{fontSize: 32}}>Comming soon...</Text>
       </View>
     );
   }
@@ -69,15 +69,17 @@ class Introduction extends React.Component{
 class  Elementaly extends React.Component{
   render() {
     return (
-      <View style={{flex:1, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
-        <Button
-          title='3×3'
+      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ThreeByThree')}
-        />
-        <Button
-          title='3×4'
+        >
+          <Text style={{fontSize: 56, color: "#607d8b"}}> 3×3 </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ThreeByFour')}
-        />
+        >
+          <Text style={{fontSize: 56, color: "#607d8b"}}> 3×4 </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -86,8 +88,9 @@ class  Elementaly extends React.Component{
 class  ThreeByThree extends React.Component{
   render() {
     return (
-      <View style={{display: 'inline-block'}}>
-        <Text>Open up App.js to start working on your app!</Text>
+      <View style={{flex: 1, justifyContent: 'start', alignItems: 'start'}}>
+        <Text style={{fontSize: 40, marginTop: 12, marginLeft: 12}}>3×3</Text>
+        <Matrix/>
       </View>
     );
   }
@@ -112,7 +115,7 @@ class  Inverse extends React.Component{
             source={require("./assets/images/candy.png")}
             style={{ width: 320, height: 256 }}
             />
-        <Text>The best is yet to be!</Text>
+        <Text style={{fontSize: 32}}>Comming soon...</Text>
       </View>
     );
   }
