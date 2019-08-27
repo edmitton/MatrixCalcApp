@@ -1,30 +1,45 @@
 import React from 'react';
 import {View, Text, StyleSheet , Image, Button, TouchableOpacity} from 'react-native';
 
-export default class Matrix extends React.Component{
+const styles = StyleSheet.create({
+	array: {
+		fontSize: 64,
+		alignItems: 'center',
+		textAlign: 'center'
+	}
+});
 
+export default class Matrix extends React.Component{
 	constructor(props) {
     super(props);
     this.state = {
-      text: ["1", "3", "5", "7", "9", "11", "13", "15", "17"],
-    }
-  }; 
+			row1: [1, 3, 5],
+			row2: [2, 4, 6],
+			row3: [7, 8, 9],
+		}
+	};
+
+	rowsCalc() {
+		return (
+			<View>
+				<TouchableOpacity>
+					<Text style={styles.array}>{this.state.row1[0]} {this.state.row1[1]} {this.state.row1[2]}</Text>
+				</TouchableOpacity>
+				<TouchableOpacity>
+					<Text style={styles.array}>{this.state.row2[0]} {this.state.row2[1]} {this.state.row2[2]}</Text>
+				</TouchableOpacity>
+				<TouchableOpacity>
+					<Text style={styles.array}>{this.state.row3[0]} {this.state.row3[1]} {this.state.row3[2]}</Text>
+				</TouchableOpacity>
+			</View>
+		);
+	}
 
 	render() {
 		return (
-			<View style={{alignContent: 'space-between'}}>
-				<Text>Open up App.js to start working on your app!</Text>
-				{/* <Text style={{fontSize: 200}}>〔</Text> */}
-				<TouchableOpacity>
-					<Text style={{fontSize: 64, marginLeft: 80}}>{this.state.text[0]} {this.state.text[1]} {this.state.text[2]}</Text>
-				</TouchableOpacity>
-				<TouchableOpacity>
-					<Text style={{fontSize:  64, marginLeft: 80}}>{this.state.text[3]} {this.state.text[4]} {this.state.text[5]}</Text>
-				</TouchableOpacity>
-				<TouchableOpacity>
-					<Text style={{fontSize:  64, marginLeft:  80}}>{this.state.text[6]} {this.state.text[7]} {this.state.text[8]}</Text>
-				</TouchableOpacity>
-				{/* <Text style={{fontSize: 200}}>〕</Text> */}
+			<View>
+				<Text style={{fontSize: 32, marginBottom: 16}}>Comming soon...</Text>				
+				<View>{this.rowsCalc()}</View>
 			</View>
 		);
 	}

@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
-    marginTop: 16,
+    marginTop: 16
   },
   menu: {
-    fontSize: 30,
+    fontSize: 30
   }
 });
 
@@ -88,7 +88,7 @@ class  Elementaly extends React.Component{
 class  ThreeByThree extends React.Component{
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'start', alignItems: 'start'}}>
+      <View style={{flex: 1, justifyContent: 'start', alignItems: 'center'}}>
         <Text style={{fontSize: 40, marginTop: 12, marginLeft: 12}}>3×3</Text>
         <Matrix/>
       </View>
@@ -100,7 +100,7 @@ class  ThreeByFour extends React.Component{
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Text style={{fontSize: 32}}>Comming soon...</Text>
       </View>
     );
   }
