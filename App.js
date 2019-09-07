@@ -7,7 +7,7 @@ import Matrix from './src/components/Matrix';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#607d8b',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -16,7 +16,15 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   menu: {
-    fontSize: 30
+    fontSize: 32,
+    color: "#607d8b",
+    marginTop: 16
+  },
+  elementaly: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 
@@ -33,17 +41,17 @@ class HomeScreen extends React.Component{
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Introduction')}
         >
-          <Text style={{fontSize: 32, color: "#607d8b", marginTop: 16}}> Introduction </Text>
+          <Text style={styles.menu}> Introduction </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Elementaly')}
         >
-          <Text style={{fontSize: 30, color: "#607d8b", marginTop: 16}}> Elementaly </Text>
+          <Text style={styles.menu}> Elementaly </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Inverse')}
         >
-          <Text style={{fontSize: 30, color: "#607d8b", marginTop: 16}}> Inverse </Text>
+          <Text style={styles.menu}> Inverse </Text>
         </TouchableOpacity>
       </View>
     );
@@ -59,7 +67,7 @@ class Introduction extends React.Component{
             source={require("./assets/images/Mathwall.jpg")}
             style={{ width: 320, height: 256 }}
             />
-        <Text style={{fontSize: 32}}>Comming soon...</Text>
+        <Text style={styles.menu}>Comming soon...</Text>
       </View>
     );
   }
@@ -69,7 +77,7 @@ class Introduction extends React.Component{
 class  Elementaly extends React.Component{
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
+      <View style={styles.elementaly}>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ThreeByThree')}
         >
@@ -88,8 +96,8 @@ class  Elementaly extends React.Component{
 class  ThreeByThree extends React.Component{
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'start', alignItems: 'center'}}>
-        <Text style={{fontSize: 40, marginTop: 12, marginLeft: 12}}>3×3</Text>
+      <View>
+        <Text style={{fontSize: 40}}>3×3</Text>
         <Matrix/>
       </View>
     );
