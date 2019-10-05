@@ -96,10 +96,7 @@ class  Elementaly extends React.Component{
 class  ThreeByThree extends React.Component{
   render() {
     return (
-      <View>
-        <Text style={{fontSize: 40}}>3×3</Text>
-        <Matrix/>
-      </View>
+      <Matrix/>
     );
   }
 }
