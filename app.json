@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Math_icon.jpg",
+    "icon": "./assets/EleMat.png",
     "splash": {
-      "image": "./assets/Math_icon.jpg",
+      "image": "./assets/EleMat.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -34,10 +34,10 @@ class HomeScreen extends React.Component{
     return (
       <View style={{flex:1, alignItems: 'center', justifyContent: 'start'}}>
         <Image
-            source={require("./assets/images/saruwakakun.png")}
-            style={{ width: 150, height: 150, marginTop: 120}}
+            source={require("./assets/images/logo_emc2.png")}
+            style={{ width: 150, height: 160, marginTop: 120}}
             />
-        <Text style={styles.title}>Matrix Menu</Text>
+        <Text style={styles.title}>Menu</Text>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Introduction')}
         >
@@ -58,7 +58,7 @@ class HomeScreen extends React.Component{
   }
 }
 
-//Inrroduction
+//Introduction
 class Introduction extends React.Component{
   render() {
     return (
@@ -67,7 +67,7 @@ class Introduction extends React.Component{
             source={require("./assets/images/Mathwall.jpg")}
             style={{ width: 320, height: 256 }}
             />
-        <Text style={styles.menu}>Comming soon...</Text>
+        <Text style={{fontSize: 32}}>Comming soon...</Text>
       </View>
     );
   }
@@ -151,6 +151,15 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#c0c0c0',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
   }
 );
 
