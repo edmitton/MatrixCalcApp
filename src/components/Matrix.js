@@ -5,27 +5,21 @@ import {
   StyleSheet,
   Image,
   Button,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
+import byThreeMatrix from "../json/byThreeMatrix";
+console.log(byThreeMatrix);
 
 const styles = StyleSheet.create({
-  matrix: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
-    // width: 500,
-  },
   array: {
     fontSize: 64,
-    alignItems: "center",
+    color: "white",
     textAlign: "center",
     width: 80,
     height: 80,
     borderWidth: 3,
     borderColor: "gray",
-    borderRadius: 10,
-    margin: 12
+    borderRadius: 10
   },
   redArray: {
     fontSize: 64,
@@ -36,14 +30,39 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "gray",
     borderRadius: 10,
-    margin: 12,
+    color: "red"
+  },
+  arraystr: {
+    fontSize: 32,
+    alignItems: "center",
+    textAlign: "center",
+    width: 40,
+    height: 40,
+    borderWidth: 3,
+    borderColor: "gray",
+    borderRadius: 10
+  },
+  redArraystr: {
+    fontSize: 32,
+    alignItems: "center",
+    textAlign: "center",
+    width: 40,
+    height: 40,
+    borderWidth: 3,
+    borderColor: "gray",
+    borderRadius: 10,
     color: "red"
   }
-  // selected: {
-  //   color: "#D00000",
-  //   fontSize: 100
-  // }
 });
+//actionステータス
+// const options = [
+//   { label: default, value: 0 },
+//   { label: "足し算", value: 1 },
+//   { label: "引き算", value: 2 },
+//   { label: "掛け算", value: 3 },
+//   { label: "割り算", value: 4 },
+//   { label: "入れ替え", value: 5 },
+// ];
 
 export default class Matrix extends React.Component {
   constructor(props) {
@@ -54,89 +73,185 @@ export default class Matrix extends React.Component {
       row3: [1, 2, 0],
       touched1: false,
       touched2: false,
-      touched3: false
+      touched3: false,
+      touched4: false,
+      action: 0,
+      strageFlag: 0
     };
   }
 
-  selectRow = async (rowNumber, value) => {
-    if (!this.state.setRow1) {
-      await this.setState({ setRow1: { row: rowNumber, value: value } });
-    } else if (!this.state.setRow2) {
+  reset() {
+    this.setState({
+      setRow1: undefined,
+      setRow2: undefined,
+      touched1: false,
+      touched2: false,
+      touched3: false,
+      action: 0,
+      strageFlag: 0
+    });
+    if (this.state.row4) {
+      this.setState({
+        strageFlag: 0,
+        row4: undefined
+      });
+    }
+  }
+
+  chooseRow = async (rowNumber, value) => {
+    if (this.state.action == 0) {
+      if (this.state.setRow1) {
+        await this.setState({ setRow2: { row: rowNumber, value: value } });
+
+        this.setState({ action: 5 });
+        this.elemAction();
+      } else {
+        await this.setState({ setRow1: { row: rowNumber, value: value } });
+      }
+    } else if (this.state.action !== 0) {
       await this.setState({ setRow2: { row: rowNumber, value: value } });
       await console.log(this.state.setRow1, this.state.setRow2);
-    } else if (this.state.setRow1 && this.state.setRow2) {
-      await this.setState({
-        setRow1: undefined,
-        setRow2: undefined
-      });
-      await this.setState({ setRow1: { row: rowNumber, value: value } });
+
+      this.elemAction();
     }
   };
 
-  minas() {
-    const r1 = this.state.setRow1.value;
-    const r2 = this.state.setRow2.value;
-    let result = [];
-
-    for (let i = 0; i < 3; i++) {
-      result[i] = r1[i] - r2[i];
-    }
-
-    switch (this.state.setRow1.row) {
+  elemAction(value) {
+    switch (this.state.action) {
       case 1:
-        this.setState({
-          row1: result
-        });
+        this.plus();
         break;
       case 2:
-        this.setState({
-          row2: result
-        });
+        this.minus();
         break;
       case 3:
-        this.setState({
-          row3: result
-        });
+        this.times(value);
+        break;
+      case 4:
+        this.divi(value);
+        break;
+      case 5:
+        this.changeRow();
         break;
     }
+    this.reset();
+  }
 
-    console.log(result);
+  storeRow(row, result) {
+    if (this.state.strageFlag == 1) {
+      this.setState({ row4: result });
+    } else {
+      switch (row) {
+        case 1:
+          this.setState({
+            row1: result
+          });
+          break;
+        case 2:
+          this.setState({
+            row2: result
+          });
+          break;
+        case 3:
+          this.setState({
+            row3: result
+          });
+          break;
+      }
+    }
   }
 
   plus() {
-    const r1 = this.state.setRow1.value;
-    const r2 = this.state.setRow2.value;
+    const r1 = this.state.setRow1;
+    const r2 = this.state.setRow2;
     let result = [];
 
-    for (let i = 0; i < 3; i++) {
-      result[i] = r1[i] + r2[i];
+    for (let i = 0; i < r1.value.length; i++) {
+      result[i] = r1.value[i] + r2.value[i];
     }
 
-    switch (this.state.setRow1.row) {
+    this.storeRow(r1.row, result);
+    console.log(result);
+  }
+
+  minus() {
+    const r1 = this.state.setRow1;
+    const r2 = this.state.setRow2;
+    let result = [];
+
+    for (let i = 0; i < r1.value.length; i++) {
+      result[i] = r1.value[i] - r2.value[i];
+    }
+
+    this.storeRow(r1.row, result);
+    console.log(result);
+  }
+
+  times(mul) {
+    const r1 = this.state.setRow1;
+    let result = [];
+
+    for (let i = 0; i < r1.value.length; i++) {
+      result[i] = r1.value[i] * mul;
+    }
+
+    this.storeRow(r1.row, result);
+    console.log(result);
+  }
+
+  divi(div) {
+    const r1 = this.state.setRow1;
+    let result = [];
+
+    for (let i = 0; i < r1.value.length; i++) {
+      result[i] = r1.value[i] / div;
+    }
+
+    this.storeRow(r1.row, result);
+    console.log(result);
+  }
+
+  changeRow() {
+    const r1 = this.state.setRow1;
+    const r2 = this.state.setRow2;
+
+    switch (r1.row) {
       case 1:
         this.setState({
-          row1: result
+          row1: r2.value
         });
         break;
       case 2:
         this.setState({
-          row2: result
+          row2: r2.value
         });
         break;
       case 3:
         this.setState({
-          row3: result
+          row3: r2.value
         });
         break;
     }
-
-    console.log(result);
+    switch (r2.row) {
+      case 1:
+        this.setState({
+          row1: r1.value
+        });
+        break;
+      case 2:
+        this.setState({
+          row2: r1.value
+        });
+        break;
+      case 3:
+        this.setState({
+          row3: r1.value
+        });
+        break;
+    }
   }
-  changeColor(row) {
-    // if (row === 1) {
-    //   this.setState({ touched1: true });
-    // }
 
+  changeColor(row) {
     switch (row) {
       case 1:
         this.setState({ touched1: true });
@@ -152,16 +267,24 @@ export default class Matrix extends React.Component {
 
   rowsCalc() {
     return (
-      <View style={{ flex: 1, backgroundColor: "yellow" }}>
-        <View style={{ flex: 1, justifyContent: "space-between" }}>
+      <View style={{ flex: 1, backgroundColor: "black" }}>
+        {this.rowStrage()}
+
+        <View
+          style={{
+            flex: 2,
+            justifyContent: "space-around",
+            marginLeft: 30,
+            marginRight: 30
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
-              this.selectRow(1, this.state.row1), this.changeColor(1);
+              this.chooseRow(1, this.state.row1), this.changeColor(1);
             }}
             style={{
-              // flex: 1,
               flexDirection: "row",
-              justifyContent: "center"
+              justifyContent: "space-around"
             }}
           >
             <Text style={this.state.touched1 ? styles.redArray : styles.array}>
@@ -177,12 +300,11 @@ export default class Matrix extends React.Component {
 
           <TouchableOpacity
             onPress={() => {
-              this.selectRow(2, this.state.row2), this.changeColor(2);
+              this.chooseRow(2, this.state.row2), this.changeColor(2);
             }}
             style={{
-              // flex: 1,
               flexDirection: "row",
-              justifyContent: "center"
+              justifyContent: "space-around"
             }}
           >
             <Text style={this.state.touched2 ? styles.redArray : styles.array}>
@@ -198,12 +320,11 @@ export default class Matrix extends React.Component {
 
           <TouchableOpacity
             onPress={() => {
-              this.selectRow(3, this.state.row3), this.changeColor(3);
+              this.chooseRow(3, this.state.row3), this.changeColor(3);
             }}
             style={{
-              // flex: 1,
               flexDirection: "row",
-              justifyContent: "center"
+              justifyContent: "space-around"
             }}
           >
             <Text style={this.state.touched3 ? styles.redArray : styles.array}>
@@ -218,38 +339,190 @@ export default class Matrix extends React.Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, backgroundColor: "green" }}>
+        <View
+          style={{
+            flex:  0.5,
+            backgroundColor: "navy",
+            flexDirection: "row",
+            justifyContent: "space-around"
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
-              this.plus(), this.setState({ touched1: false, touched2: false, touched3: false });
+              this.setState({ action: 1 });
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
             }}
           >
             <Text
               style={{
-                fontSize: 64,
-                alignItems: "center",
-                textAlign: "center",
-                color: "#D00000"
+                fontSize: 80,
+                color: "white",
+                lineHeight: 80,
+                textAlign: "center"
               }}
             >
-              ＋
+              +
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
-              this.minas(), this.setState({ touched1: false, touched2: false, touched3: false });
+              this.setState({ action: 2 });
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 80,
+                color: "white",
+                lineHeight: 80,
+                textAlign: "center"
+              }}
+            >
+              -
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ action: 3 });
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 80,
+                color: "white",
+                lineHeight: 80,
+                textAlign: "center"
+              }}
+            >
+              ×
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ action: 4 });
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 80,
+                color: "white",
+                lineHeight: 80,
+                textAlign: "center"
+              }}
+            >
+              ÷
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+
+        <View
+          style={{
+            flex: 0.5,
+            backgroundColor: "navy",
+            flexDirection: "row",
+            justifyContent: "space-around"
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              this.elemAction(2);
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <Text
               style={{
                 fontSize: 64,
-                alignItems: "center",
-                textAlign: "center",
-                color: "#D00000"
+                color: "white",
+
               }}
             >
-              ー
+              2
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.elemAction(3);
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 64,
+                color: "white",
+              }}
+            >
+              3
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.elemAction(5);
+            }}
+            style={{
+              borderRadius: 50,
+              borderColor: "gray",
+              borderWidth: 3,
+              width: 80,
+              height: 80,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 64,
+                color: "white",
+              }}
+            >
+              5
             </Text>
           </TouchableOpacity>
         </View>
@@ -257,11 +530,71 @@ export default class Matrix extends React.Component {
     );
   }
 
+  rowStrage() {
+    if (this.state.row4) {
+      return (
+        <View
+          style={{
+            flex: 0.25,
+            // marginTop:  20,
+            backgroundColor: "black",
+            alignItems: "flex-end"
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              this.chooseRow(4, this.state.row4);
+            }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              borderWidth: 3,
+              backgroundColor: "aqua",
+              borderRadius: 10,
+              borderColor: "aqua",
+              width: 150
+            }}
+          >
+            <Text style={styles.arraystr}>{this.state.row4[0]}</Text>
+            <Text style={styles.arraystr}>{this.state.row4[1]}</Text>
+            <Text style={styles.arraystr}>{this.state.row4[2]}</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={{
+            flex: 0.25,
+            backgroundColor: "black",
+            alignItems: "flex-end"
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ strageFlag: 1 });
+            }}
+            style={{
+              borderWidth: 3,
+              backgroundColor: "aqua",
+              borderRadius: 10,
+              borderColor: "aqua",
+              width: 150
+            }}
+          >
+            <Text style={{ fontSize: 40, textAlign: "center", color: "white", lineHeight: 40 }}>
+              Stock!
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "blue" }}>
-        <Text style={{ fontSize: 40 }}>3×3</Text>
-        <Text style={{ fontSize: 32, marginBottom: 16 }}>Comming soon...</Text>
+      <View style={{ flex: 1, backgroundColor: "black" }}>
+        <Text style={{ color: "white", fontSize: 40, width: 120, height: 50, borderWidth: 3, borderColor: "gray" }}>3×3</Text>
         {this.rowsCalc()}
       </View>
     );
