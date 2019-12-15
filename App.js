@@ -1,8 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet , Image, Button, TouchableOpacity} from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Matrix from './src/components/Matrix';
-
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import ByThreeMat from './src/components/ByThreeMat';
+import ByFourMat from './src/components/ByFourMat';
+import CorrectAns from './src/components/CorrectAns';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,18 +15,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
-    marginTop: 16
+    marginTop: 16,
+    fontFamily: "Bradley Hand"
   },
   menu: {
     fontSize: 32,
     color: "#607d8b",
-    marginTop: 16
+    marginTop: 16,
+    fontFamily: "Bradley Hand"
   },
   elementaly: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#333'
   }
 });
 
@@ -32,10 +37,10 @@ const styles = StyleSheet.create({
 class HomeScreen extends React.Component{
   render(){
     return (
-      <View style={{flex:1, alignItems: 'center', justifyContent: 'start'}}>
+      <View style={{flex:1, alignItems: 'center', justifyContent: 'start', backgroundColor: "#333"}}>
         <Image
-            source={require("./assets/images/logo_emc2.png")}
-            style={{ width: 150, height: 160, marginTop: 120}}
+            source={require("./assets/images/logo_EleMat.png")}
+            style={{ width: 200, height: 200, marginTop: 120, }}
             />
         <Text style={styles.title}>Menu</Text>
         <TouchableOpacity
@@ -48,11 +53,11 @@ class HomeScreen extends React.Component{
         >
           <Text style={styles.menu}> Elementaly </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Inverse')}
         >
           <Text style={styles.menu}> Inverse </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -79,33 +84,15 @@ class  Elementaly extends React.Component{
     return (
       <View style={styles.elementaly}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ThreeByThree')}
+          onPress={() => this.props.navigation.navigate('ByThreeMat')}
         >
-          <Text style={{fontSize: 56, color: "#607d8b"}}> 3×3 </Text>
+          <Text style={{fontSize: 56, color: "#607d8b", fontFamily: "Bradley Hand"}}> 3×3 </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ThreeByFour')}
+          onPress={() => this.props.navigation.navigate('ByFourMat')}
         >
-          <Text style={{fontSize: 56, color: "#607d8b"}}> 3×4 </Text>
+          <Text style={{fontSize: 56, color: "#607d8b", fontFamily: "Bradley Hand"}}> 3×4 </Text>
         </TouchableOpacity>
-      </View>
-    );
-  }
-}
-
-class  ThreeByThree extends React.Component{
-  render() {
-    return (
-      <Matrix/>
-    );
-  }
-}
-
-class  ThreeByFour extends React.Component{
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={{fontSize: 32}}>Comming soon...</Text>
       </View>
     );
   }
@@ -142,30 +129,35 @@ const RootStack = createStackNavigator(
     Inverse: {
       screen: Inverse,
     },
-    ThreeByThree: {
-      screen:  ThreeByThree,
+    ByThreeMat: {
+      screen:  ByThreeMat,
+      navigationOptions: ({ }) => {
+        return {
+          title: '3×3',
+        };
+      },
     },
-    ThreeByFour: {
-      screen:  ThreeByFour,
+    ByFourMat: {
+      screen:  ByFourMat,
+    },
+    CorrectAns: {
+      screen:  CorrectAns,
     }
   },
   {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#c0c0c0',
+        backgroundColor: '#333',
       },
-      headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
     },
   }
-);
+)
 
 const AppContainer = createAppContainer(RootStack);
-
-
 
 //App
 export default class App extends React.Component {
