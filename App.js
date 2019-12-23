@@ -40,7 +40,7 @@ class HomeScreen extends React.Component{
       <View style={{flex:1, alignItems: 'center', justifyContent: 'start', backgroundColor: "#333"}}>
         <Image
             source={require("./assets/images/logo_EleMat.png")}
-            style={{ width: 200, height: 200, marginTop: 120, }}
+            style={{ width: 200, height: 200, marginTop: 170, }}
             />
         <Text style={styles.title}>Menu</Text>
         <TouchableOpacity
@@ -53,11 +53,11 @@ class HomeScreen extends React.Component{
         >
           <Text style={styles.menu}> Elementaly </Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Inverse')}
         >
           <Text style={styles.menu}> Inverse </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     );
   }
@@ -84,14 +84,14 @@ class  Elementaly extends React.Component{
     return (
       <View style={styles.elementaly}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ByThreeMat')}
+          onPress={() => this.props.navigation.navigate('ByThreeMat', {scr: 3})}
         >
           <Text style={{fontSize: 56, color: "#607d8b", fontFamily: "Bradley Hand"}}> 3×3 </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ByFourMat')}
+          onPress={() => this.props.navigation.navigate('ByFourMat', {scr: 4})}
         >
-          <Text style={{fontSize: 56, color: "#607d8b", fontFamily: "Bradley Hand"}}> 3×4 </Text>
+          <Text style={{fontSize: 56, color: "#607d8b", fontFamily: "Bradley Hand"}}> 4×3 </Text>
         </TouchableOpacity>
       </View>
     );
@@ -119,6 +119,11 @@ const RootStack = createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
+      navigationOptions: ({ }) => {
+        return {
+          header: null,
+        };
+      },
     },
     Introduction: {
       screen: Introduction,
